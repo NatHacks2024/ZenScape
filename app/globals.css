@@ -1,0 +1,42 @@
+/* global.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent scrolling */
+}
+
+/* Ensure canvas and Three.js styles are not overridden by Tailwind's reset */
+.canvas {
+  display: block; /* Make sure canvas behaves as block-level */
+  width: 100% !important; /* Force it to take full width */
+  height: 100% !important; /* Force it to take full height */
+  position: absolute; /* Make sure it sits in the correct position */
+  top: 0;
+  left: 0;
+  z-index: 0; /* Ensure it's not overlapped by other elements */
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
