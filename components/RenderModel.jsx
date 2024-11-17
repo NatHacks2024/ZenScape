@@ -14,7 +14,7 @@ import gsap from "gsap";
 const RenderModel = forwardRef((props, ref) => {
   const cameraRef = useRef();
   const [isAnimating, setIsAnimating] = useState(false);
-
+  const [isZoomed, setIsZoomed] = useState(false);
   const initialPosition = { x: -17, y: 3, z: -25 }; // Original starting position
   const initialLookAt = { x: 0, y: 0, z: 0 }; // Original look-at target
 
@@ -45,6 +45,7 @@ const RenderModel = forwardRef((props, ref) => {
       },
       onComplete: () => {
         setIsAnimating(false);
+        setIsZoomed(true);
         if (controls) controls.enabled = true;
       },
     });
@@ -73,6 +74,7 @@ const RenderModel = forwardRef((props, ref) => {
       },
       onComplete: () => {
         setIsAnimating(false);
+        setIsZoomed(false);
       },
     });
   };
@@ -101,6 +103,8 @@ const RenderModel = forwardRef((props, ref) => {
             maxPolarAngle={Math.PI / 2}
             maxDistance={33}
             minDistance={2}
+            autoRotate={!isZoomed}
+            autoRotateSpeed={0.8}
           />
           <ambientLight intensity={0.5} />
           <SnowHut />

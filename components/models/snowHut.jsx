@@ -16,10 +16,15 @@ export default function SnowHut(props) {
     "/models/snowcabin/scene-transformed.glb"
   );
   const snowRef = useRef();
+  const snowRef2 = useRef();
   useFrame((state, delta) => {
     snowRef.current.position.y -= (delta / 4) * 10;
     if (snowRef.current.position.y < -40) {
       snowRef.current.position.y = 0;
+    }
+    snowRef2.current.position.y -= (delta / 4) * 10;
+    if (snowRef2.current.position.y < -10) {
+      snowRef2.current.position.y = 20;
     }
   });
 
@@ -56,6 +61,16 @@ export default function SnowHut(props) {
         material={materials.SnowParticleTexture}
         rotation={[-Math.PI / 2, 0, 0]}
         position={[0, 0, 0]}
+      />
+      <mesh
+        ref={snowRef2}
+        name="SnowParticles_SnowParticleTexture_0"
+        castShadow
+        receiveShadow
+        geometry={nodes.SnowParticles_SnowParticleTexture_0.geometry}
+        material={materials.SnowParticleTexture}
+        rotation={[-Math.PI / 2, 0, 0]}
+        position={[0, 7, 0]}
       />
     </group>
   );
