@@ -1,40 +1,112 @@
 "use client";
-import {
-  Environment,
-  OrbitControls,
-  PerspectiveCamera,
-} from "@react-three/drei";
-import { Canvas, useThree } from "@react-three/fiber";
-import React, { Suspense, useEffect } from "react";
-import Garden from "./models/garden";
+import React, {
+  Suspense,
+  useRef,
+  useImperativeHandle,
+  forwardRef,
+  useState,
+} from "react";
+import { Canvas } from "@react-three/fiber";
+import { PerspectiveCamera, OrbitControls } from "@react-three/drei";
 import SnowHut from "./models/snowHut";
-//import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import gsap from "gsap";
 
-const CameraOrbitController = () => {
-  const { camera, gl } = useThree();
+const RenderModel = forwardRef((props, ref) => {
+  const cameraRef = useRef();
+  const [isAnimating, setIsAnimating] = useState(false);
 
-  useEffect(() => {
-    //const controls = new OrbitControls(camera, gl.domElement);
-    return () => {
-      controls.dispose();
-    };
-  }, [camera, gl]);
+  const initialPosition = { x: -10, y:2, z: -25}; // Original starting position
+  const initialLookAt = { x:0, y: 0, z: 0 }; // Original look-at target
 
-  return null;
-};
-const RenderModel = ({ children }) => {
+  // Function to zoom to the SnowHut
+  const handleZoomToSnowHut = () => {
+    if (isAnimating || !cameraRef.current) return;
+
+    setIsAnimating(true);
+
+    const targetPosition = { x: -2, y: 2, z: 5 };
+    const lookAtPosition = { x: -2, y: 0, z: 0 };
+
+    gsap.to(cameraRef.current.position, {
+      x: targetPosition.x,
+      y: targetPosition.y,
+      z: targetPosition.z,
+      duration: 2,
+      ease: "power2.inOut",
+      onUpdate: () => {
+        cameraRef.current.lookAt(
+          lookAtPosition.x,
+          lookAtPosition.y,
+          lookAtPosition.z
+        );
+      },
+      onComplete: () => {
+        setIsAnimating(false);
+      },
+    });
+  };
+
+
+  const handelZoomToGarden = () => {
+    
+  }
+
+  // Function to reset the camera to the original starting position
+  const handleResetView = () => {
+    if (isAnimating || !cameraRef.current) return;
+
+    setIsAnimating(true);
+
+    gsap.to(cameraRef.current.position, {
+      x: initialPosition.x,
+      y: initialPosition.y,
+      z: initialPosition.z,
+      duration: 2,
+      ease: "power2.inOut",
+      onUpdate: () => {
+        cameraRef.current.lookAt(
+          initialLookAt.x,
+          initialLookAt.y,
+          initialLookAt.z
+        );
+      },
+      onComplete: () => {
+        setIsAnimating(false);
+      },
+    });
+  };
+
+  // Expose methods via ref for parent to call
+  useImperativeHandle(ref, () => ({
+    handleIconClick: (icon) => {
+      if (icon === "music") {
+        handleZoomToSnowHut();
+      }
+    },
+    resetView: handleResetView, // Expose the reset view function
+  }));
+
   return (
-    <Canvas className={"w-screen h-screen -z-10 relative canvas "}>
-      <Suspense fallback={null}>
-        <PerspectiveCamera makeDefault position={[-3, -1, -5]} />
-        <OrbitControls />
+    <div className="relative w-screen h-screen">
+      {/* Reset Button */}
+    
 
-        <directionalLight color="red" position={[0, 5, 0]} intensity={0.3} />
-        <SnowHut />
-        {/* <Environment preset="sunset" /> */}
-      </Suspense>
-    </Canvas>
+      <Canvas className="w-full h-full">
+        <Suspense fallback={null}>
+          <PerspectiveCamera
+            makeDefault
+            position={[initialPosition.x, initialPosition.y, initialPosition.z]}
+            ref={cameraRef}
+          />
+          <OrbitControls enabled={!isAnimating} />
+          <ambientLight intensity={0.5} />
+          <SnowHut />
+        </Suspense>
+      </Canvas>
+    </div>
   );
-};
+});
+
+RenderModel.displayName = "RenderModel"; // Required for forwardRef components
 
 export default RenderModel;
