@@ -11,13 +11,20 @@ Title: Cabin on the hill
 import React from 'react'
 import { useGLTF } from '@react-three/drei'
 
-export function Model(props) {
+
+import { useCameraAnimation } from './Zoom'
+
+export function Model({ ...props }) {
   const { nodes, materials } = useGLTF('/scene-transformed.glb')
+  const { startZoomAnimation, isAnimating } = useCameraAnimation();
+
   return (
     <group {...props} dispose={null}>
-      <mesh geometry={nodes.Trees_VertexColor_0.geometry} material={materials.VertexColor} rotation={[-Math.PI / 2, 0, 0]} />
-      <mesh geometry={nodes.Snow_SnowWithTexture_0.geometry} material={materials.SnowWithTexture} rotation={[-Math.PI / 2, 0, 0]} />
-      <mesh geometry={nodes.SnowParticles_SnowParticleTexture_0.geometry} material={materials.SnowParticleTexture} rotation={[-Math.PI / 2, 0, 0]} />
+      <mesh 
+        geometry={nodes.SnowParticles_SnowParticleTexture_0.geometry} 
+        material={materials.SnowParticleTexture} 
+        rotation={[-Math.PI / 2, 0, 0]} 
+      />
     </group>
   )
 }
