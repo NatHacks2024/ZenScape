@@ -5,31 +5,37 @@ import { Activity, HeartPulse, Wind, Music, LoaderPinwheel } from "lucide-react"
 
 const Navigation = ({ onIconClick ,onReset,showGoBack = false}) => {
   const buttonList = [
-    {
-      label: "Meditation",
-      icon: "activity",
-      component: Activity,
-    },
-    {
-      label: "Exercise",
-      icon: "heart-pulse",
-      component: HeartPulse,
-    },
-    {
-      label: "Breathing",
-      icon: "wind",
-      component: Wind,
-    },
+
     {
       label: "Music",
       icon: "music",
       component: Music,
-    },
-    {
-      label: "Relaxation",
-      icon: "loader-pinwheel",
-      component: LoaderPinwheel,
-    },
+    }
+    //{
+    //  //label: "Meditation",
+    //  //icon: "activity",
+    //  //component: Activity,
+    //},//
+    //{//
+    //  //label: "Exercise",
+    //  //icon: "heart-pulse",
+    //  //component: HeartPulse,
+    //},//
+    //{//
+    //  //label: "Breathing",
+    //  //icon: "wind",
+    //  //component: Wind,
+    //},
+    //{
+    //  label: "Music",
+    //  icon: "music",
+    //  component: Music,
+    //},
+    //{
+    //  //label: "Relaxation",
+    //  //icon: "loader-pinwheel",
+    //  //component: LoaderPinwheel,
+    //},
   ];
 
   return (
@@ -43,11 +49,14 @@ const Navigation = ({ onIconClick ,onReset,showGoBack = false}) => {
                 {/* Main Button */}
                 <button
                     onClick={() => onIconClick(button.icon)}
-                    className="relative block rounded-full p-4 w-14 h-14 flex items-center justify-center bg-white/10 backdrop-blur-sm border border-white/30 hover:bg-white/20 hover:border-white active:bg-white/30 transition-all duration-300 ease-in-out cursor-pointer shadow-lg"
+                    className="relative w-40 h-20 flex items-center justify-center before:content-[''] 
+                    before:absolute before:w-full before:h-full before:bg-white/10 before:[clip-path:polygon(25%_0%,75%_0%,100%_50%,75%_100%,25%_100%,0%_50%)] 
+                    before:border before:border-white/0 before:hover:bg-white/20 before:transition-all before:duration-300 hover:before:scale-105 active:before:bg-white/30"
+                    //className=""
                     aria-label={button.label}
                 >
                     <button.component
-                        size={24}
+                        size={48}
                         className="text-white"
                     />
                 </button>
@@ -59,7 +68,9 @@ const Navigation = ({ onIconClick ,onReset,showGoBack = false}) => {
             <div className="relative group/item">
                 <button
                     onClick={onReset}
-                    className="relative block rounded-full p-4 w-14 h-14 flex items-center justify-center bg-white/10 backdrop-blur-sm border border-white/30 hover:bg-white/20 hover:border-white active:bg-white/30 transition-all duration-300 ease-in-out cursor-pointer shadow-lg"
+                    className="relative w-40 h-20 flex items-center justify-center before:content-[''] 
+                    before:absolute before:w-full before:h-full before:bg-white/10 before:[clip-path:polygon(25%_0%,75%_0%,100%_50%,75%_100%,25%_100%,0%_50%)] 
+                    before:border before:border-white/0 before:hover:bg-white/20 before:transition-all before:duration-300 hover:before:scale-105 active:before:bg-white/30"
                 >
                     Go Back
                 </button>

@@ -15,7 +15,7 @@ const RenderModel = forwardRef((props, ref) => {
   const cameraRef = useRef();
   const [isAnimating, setIsAnimating] = useState(false);
 
-  const initialPosition = { x: -10, y:2, z: -25}; // Original starting position
+  const initialPosition = { x: -17, y:3, z: -25}; // Original starting position
   const initialLookAt = { x:0, y: 0, z: 0 }; // Original look-at target
 
   // Function to zoom to the SnowHut
@@ -24,8 +24,8 @@ const RenderModel = forwardRef((props, ref) => {
 
     setIsAnimating(true);
 
-    const targetPosition = { x: -2, y: 2, z: 5 };
-    const lookAtPosition = { x: -2, y: 0, z: 0 };
+    const targetPosition = { x: -1, y: 0, z: 5 };
+    const lookAtPosition = { x: 0, y: 0, z: 0 };
 
     gsap.to(cameraRef.current.position, {
       x: targetPosition.x,
@@ -88,9 +88,6 @@ const RenderModel = forwardRef((props, ref) => {
 
   return (
     <div className="relative w-screen h-screen">
-      {/* Reset Button */}
-    
-
       <Canvas className="w-full h-full">
         <Suspense fallback={null}>
           <PerspectiveCamera
